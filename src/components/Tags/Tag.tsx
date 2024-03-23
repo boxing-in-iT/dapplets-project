@@ -12,12 +12,13 @@ const TagItem = styled.div`
 const TagText = styled.span`
   color: white;
   margin-right: 10px;
+  font-size: 10px;
 `;
 
 const CloseIcon = styled.span`
   cursor: pointer;
   color: white;
-  font-size: 16px;
+  font-size: 10px;
 `;
 
 interface TagsProps {

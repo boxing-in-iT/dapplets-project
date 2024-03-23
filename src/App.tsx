@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar/Sidebar";
+import MainTable from "./components/MainTable/MainTable";
 
 const Page = styled.div`
   position: relative;
@@ -13,14 +14,19 @@ const Page = styled.div`
 
 const Content = styled.div`
   flex: 1;
-  background-color: black;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function App() {
   return (
     <Page>
       <Sidebar />
-      <Content></Content>
+      <Content>
+        <MainTable />
+      </Content>
     </Page>
   );
 }
