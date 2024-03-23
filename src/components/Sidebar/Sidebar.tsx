@@ -10,77 +10,162 @@ import user from "../../assets/img/sideBar/users.svg";
 import trending from "../../assets/img/sideBar/trending-up.svg";
 import Tag from "../Tags/Tag";
 
-const Sidebar = () => {
+interface SidebarProps {
+  // Добавьте здесь необходимые пропсы, если они есть
+}
+
+const Sidebar = (props: SidebarProps) => {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState("All Dapplets");
+
+  const toggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
+  };
+
+  const handleMenuItemClick = (menuItem: string) => {
+    setActiveMenuItem(menuItem);
+  };
+
   return (
-    <SideBarWrapper>
+    <SideBarWrapper collapsed={isSidebarCollapsed}>
       <SideBarTop>
         <div>
           <LogoContainer>
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" onClick={() => toggleSidebar()} />
           </LogoContainer>
-          <Title>Dapplets Project.</Title>
+          {!isSidebarCollapsed && <Title>Dapplets Project.</Title>}
         </div>
 
-        <img style={{ cursor: "pointer" }} src={arrowRight} alt="arrow-right" />
+        {!isSidebarCollapsed && (
+          <img
+            style={{ cursor: "pointer" }}
+            src={arrowRight}
+            alt="arrow-right"
+            onClick={toggleSidebar}
+          />
+        )}
       </SideBarTop>
-      <SideBarMenu>
-        <SideBarMenuItem>
-          <Icon src={codeSandbox} alt="CodeSandbox" />
-          All Dapplets
-        </SideBarMenuItem>
-        <SideBarMenuItem>
-          <Icon src={heart} alt="Heart" />
-          Editor's Choice
-        </SideBarMenuItem>
-        <SideBarMenuItem>
-          <Icon src={grid} alt="Grid" />
-          Essential Dappleets
-        </SideBarMenuItem>
-        <SideBarMenuItem>
-          <Icon src={user} alt="User" />
-          Social Networks
-        </SideBarMenuItem>
-        <SideBarMenuItem>
-          <Icon src={trending} alt="Trending" />
-          Financial Dapplets
-        </SideBarMenuItem>
-      </SideBarMenu>
-      <Header style={{ width: "80%", margin: "0 auto" }}>My lists</Header>
-      <UserListWrapper>
-        <p>TOP-10 Twitter Dapplets</p>
-        <p>TOP-10 Twitter Dapplets (Me)</p>
-        <p>TOP-10 Twitter Dapplets (Me)</p>
-      </UserListWrapper>
-      <Header style={{ width: "80%", margin: "0 auto" }}>My tags</Header>
-      <UserTags>
-        <Tag text="Twitter" />
-        <Tag text="Social Media" />
-        <Tag text="Top 10" />
-        <Tag text="Finances" />
-        <Tag text="Media" />
-        <Tag text="Test" />
-        <Tag text="ToDo" />
-      </UserTags>
+      {!isSidebarCollapsed ? (
+        <>
+          <SideBarMenu>
+            <SideBarMenuItem
+              active={activeMenuItem === "All Dapplets"}
+              onClick={() => handleMenuItemClick("All Dapplets")}
+            >
+              <Icon src={codeSandbox} alt="CodeSandbox" />
+              All Dapplets
+            </SideBarMenuItem>
+            <SideBarMenuItem
+              active={activeMenuItem === "Editor's Choice"}
+              onClick={() => handleMenuItemClick("Editor's Choice")}
+            >
+              <Icon src={heart} alt="Heart" />
+              Editor's Choice
+            </SideBarMenuItem>
+            <SideBarMenuItem
+              active={activeMenuItem === "Essential Dappleets"}
+              onClick={() => handleMenuItemClick("Essential Dappleets")}
+            >
+              <Icon src={grid} alt="Grid" />
+              Essential Dappleets
+            </SideBarMenuItem>
+            <SideBarMenuItem
+              active={activeMenuItem === "Social Networks"}
+              onClick={() => handleMenuItemClick("Social Networks")}
+            >
+              <Icon src={user} alt="User" />
+              Social Networks
+            </SideBarMenuItem>
+            <SideBarMenuItem
+              active={activeMenuItem === "Financial Dapplets"}
+              onClick={() => handleMenuItemClick("Financial Dapplets")}
+            >
+              <Icon src={trending} alt="Trending" />
+              Financial Dapplets
+            </SideBarMenuItem>
+          </SideBarMenu>
+          <Header style={{ width: "80%", margin: "0 auto" }}>My lists</Header>
+          <UserListWrapper>
+            <p>TOP-10 Twitter Dapplets</p>
+            <p>TOP-10 Twitter Dapplets (Me)</p>
+            <p>TOP-10 Twitter Dapplets (Me)</p>
+          </UserListWrapper>
+          <Header style={{ width: "80%", margin: "0 auto" }}>My tags</Header>
+          <UserTags>
+            <Tag text="Twitter" />
+            <Tag text="Social Media" />
+            <Tag text="Top 10" />
+            <Tag text="Finances" />
+            <Tag text="Media" />
+            <Tag text="Test" />
+            <Tag text="ToDo" />
+          </UserTags>
+        </>
+      ) : (
+        <SideBarMenu>
+          <SideBarMenuItem
+            active={activeMenuItem === "All Dapplets"}
+            onClick={() => handleMenuItemClick("All Dapplets")}
+          >
+            <Icon src={codeSandbox} alt="CodeSandbox" />
+          </SideBarMenuItem>
+          <SideBarMenuItem
+            active={activeMenuItem === "Editor's Choice"}
+            onClick={() => handleMenuItemClick("Editor's Choice")}
+          >
+            <Icon src={heart} alt="Heart" />
+          </SideBarMenuItem>
+          <SideBarMenuItem
+            active={activeMenuItem === "Essential Dappleets"}
+            onClick={() => handleMenuItemClick("Essential Dappleets")}
+          >
+            <Icon src={grid} alt="Grid" />
+          </SideBarMenuItem>
+          <SideBarMenuItem
+            active={activeMenuItem === "Social Networks"}
+            onClick={() => handleMenuItemClick("Social Networks")}
+          >
+            <Icon src={user} alt="User" />
+          </SideBarMenuItem>
+          <SideBarMenuItem
+            active={activeMenuItem === "Financial Dapplets"}
+            onClick={() => handleMenuItemClick("Financial Dapplets")}
+          >
+            <Icon src={trending} alt="Trending" />
+          </SideBarMenuItem>
+        </SideBarMenu>
+      )}
     </SideBarWrapper>
   );
 };
 
-const SideBarWrapper = styled.div`
-  display: none;
-  padding-left: 1rem;
-  max-height: 100vh;
-  padding-right: 1rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+interface SideBarWrapperProps {
+  collapsed: boolean;
+}
+
+interface SideBarMenuItemProps {
+  active: boolean;
+}
+
+const SideBarWrapper = styled.div<SideBarWrapperProps>`
+  display: ${(props) => (props.collapsed ? "flex" : "none")};
   flex-direction: column;
   gap: 1em;
-  width: 360px;
+  width: ${(props) =>
+    props.collapsed
+      ? "98px"
+      : "360px"}; // Ширина сайдбара при свернутом и развернутом состоянии
   background: linear-gradient(
     rgba(227, 220, 255, 0.2),
     rgba(185, 251, 255, 0.2)
   );
   opacity: 0.7;
   overflow-y: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  transition: width 0.5s ease;
   @media (min-width: 768px) {
     display: flex;
   }
@@ -118,13 +203,16 @@ const SideBarMenu = styled.ul`
   gap: 3em;
 `;
 
-const SideBarMenuItem = styled.li`
+const SideBarMenuItem = styled.li<SideBarMenuItemProps>`
+  height: 2em;
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 1em;
+  border-right: 3px solid
+    ${(props) => (props.active ? "#0085FF" : "transparent")};
 `;
 
 const Icon = styled.img`

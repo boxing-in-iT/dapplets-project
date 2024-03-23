@@ -13,7 +13,7 @@ const Page = styled.div`
 
 const Content = styled.div`
   flex: 1;
-  background-color: blue;
+  background-color: black;
 `;
 
 function App() {
