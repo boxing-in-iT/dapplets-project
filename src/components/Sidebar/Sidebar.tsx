@@ -213,6 +213,7 @@ const SideBarMenuItem = styled.li<SideBarMenuItemProps>`
   gap: 1em;
   border-right: 3px solid
     ${(props) => (props.active ? "#0085FF" : "transparent")};
+  padding: 0 2.5em;
 `;
 
 const Icon = styled.img`

@@ -14,8 +14,10 @@ const SearchInput = styled.input`
   position: relative;
   flex: 1;
   padding: 1em;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
+  border: 2px solid #ffffff;
+  /* background-color: #ffffff; */
+
+  border-radius: 10px;
   padding-left: 40px; /* Adjust based on your desired icon offset */
   background: url(${searchIcon}) no-repeat;
   background-position: 10px center; /* Adjust the offset from the left edge */

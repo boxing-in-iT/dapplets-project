@@ -16,7 +16,7 @@ const MainTableWrapper = styled.div`
 
 const TableContent = styled.div`
   min-height: 25vh;
-  max-height: 50vh;
+  max-height: 75vh;
   overflow-y: auto;
 `;
 
