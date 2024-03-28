@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux"; // Update with your slice file name
+
 import searchIcon from "../../assets/img/mainTable/search.svg";
 import arrowDown from "../../assets/img/mainTable/arrowDown.svg";
+import {
+  updateSearchTerm,
+  updateSortBy,
+} from "../../store/features/moviesSlice";
+import { sortOptions } from "../../shared/Types";
 
 const SearchBarWrapper = styled.div`
   display: flex;
@@ -32,14 +39,33 @@ const Select = styled.select`
 `;
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (event: any) => {
+    const { value } = event.target;
+    setInputValue(value);
+    dispatch(updateSearchTerm(value));
+  };
+
+  const handleSortChange = (event: any) => {
+    const { value } = event.target;
+    dispatch(updateSortBy(value));
+  };
+
   return (
     <SearchBarWrapper>
-      <SearchInput placeholder="Search" />
-      <Select>
-        <option>Release date</option>
-      </Select>
-      <Select>
-        <option>Descending</option>
+      <SearchInput
+        placeholder="Search"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+      <Select onChange={handleSortChange}>
+        {sortOptions.map((data, i) => (
+          <option key={i} value={data.value}>
+            {data.title}
+          </option> // добавил ключ для каждого элемента списка
+        ))}
       </Select>
     </SearchBarWrapper>
   );

@@ -1,4 +1,6 @@
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { addUserGenre } from "../../store/features/moviesSlice";
 
 const TagItem = styled.div`
   display: flex;
@@ -22,18 +24,23 @@ const CloseIcon = styled.span`
 `;
 
 interface TagsProps {
+  id?: number;
   text: string;
 }
 
 const Tag = (props: TagsProps) => {
-  const { text } = props;
+  const dispatch = useDispatch();
+  const { text, id } = props;
   const handleClose = () => {
-    // Добавьте здесь логику для удаления тега
     console.log(`Удалить тег: ${text}`);
   };
 
+  const chooseGenre = () => {
+    id ? dispatch(addUserGenre(id)) : console.log("Not id");
+  };
+
   return (
-    <TagItem>
+    <TagItem onClick={() => chooseGenre()}>
       <TagText>{text}</TagText>
       <CloseIcon onClick={handleClose}>×</CloseIcon>
     </TagItem>

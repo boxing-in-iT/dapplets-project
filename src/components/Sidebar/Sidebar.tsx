@@ -9,6 +9,9 @@ import grid from "../../assets/img/sideBar/grid.svg";
 import user from "../../assets/img/sideBar/users.svg";
 import trending from "../../assets/img/sideBar/trending-up.svg";
 import Tag from "../Tags/Tag";
+import { useSelector } from "react-redux";
+import { Genre } from "../../shared/Types";
+import { useGetGenresQuery } from "../../store/services/tmdbApi";
 
 interface SidebarProps {
   // Добавьте здесь необходимые пропсы, если они есть
@@ -18,6 +21,9 @@ const Sidebar = (props: SidebarProps) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState("All Dapplets");
 
+  const { userGenres } = useSelector((state: any) => state.movie);
+  const { data: genresData } = useGetGenresQuery({});
+
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
   };
@@ -25,6 +31,10 @@ const Sidebar = (props: SidebarProps) => {
   const handleMenuItemClick = (menuItem: string) => {
     setActiveMenuItem(menuItem);
   };
+
+  if (!genresData || !genresData.genres) {
+    return null;
+  }
 
   return (
     <SideBarWrapper collapsed={isSidebarCollapsed}>
@@ -53,14 +63,14 @@ const Sidebar = (props: SidebarProps) => {
               onClick={() => handleMenuItemClick("All Dapplets")}
             >
               <Icon src={codeSandbox} alt="CodeSandbox" />
-              All Dapplets
+              All Movies
             </SideBarMenuItem>
             <SideBarMenuItem
               active={activeMenuItem === "Editor's Choice"}
               onClick={() => handleMenuItemClick("Editor's Choice")}
             >
               <Icon src={heart} alt="Heart" />
-              Editor's Choice
+              Favorite
             </SideBarMenuItem>
             <SideBarMenuItem
               active={activeMenuItem === "Essential Dappleets"}
@@ -92,13 +102,15 @@ const Sidebar = (props: SidebarProps) => {
           </UserListWrapper>
           <Header style={{ width: "80%", margin: "0 auto" }}>My tags</Header>
           <UserTags>
-            <Tag text="Twitter" />
-            <Tag text="Social Media" />
-            <Tag text="Top 10" />
-            <Tag text="Finances" />
-            <Tag text="Media" />
-            <Tag text="Test" />
-            <Tag text="ToDo" />
+            {/* {userGenres.map((data: Genre) => (
+              <Tag text={data.name} />
+            ))} */}
+            {userGenres.map((genreId: number) => {
+              const genre = genresData.genres.find(
+                (genre: Genre) => genre.id === genreId
+              );
+              return genre ? <Tag key={genre.id} text={genre.name} /> : null;
+            })}
           </UserTags>
         </>
       ) : (
@@ -154,18 +166,22 @@ const SideBarWrapper = styled.div<SideBarWrapperProps>`
   width: ${(props) =>
     props.collapsed
       ? "98px"
-      : "360px"}; // Ширина сайдбара при свернутом и развернутом состоянии
+      : "270px"}; // Ширина сайдбара при свернутом и развернутом состоянии
   background: linear-gradient(
     rgba(227, 220, 255, 0.2),
     rgba(185, 251, 255, 0.2)
   );
-  opacity: 0.7;
+  opacity: 1;
   overflow-y: auto;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   transition: width 0.5s ease;
+
+  /* Применяем размытие к заднему фону */
+  backdrop-filter: blur(10px);
+
   @media (min-width: 768px) {
     display: flex;
   }
