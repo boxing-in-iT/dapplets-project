@@ -27,8 +27,22 @@ export const tmdbApi = createApi({
       query: (searchTerm) =>
         `search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1`,
     }),
+    getMoviesWithGenres: builder.query({
+      query: (genreIds: number[]) => {
+        const formattedGenreIds = genreIds.join("%2C");
+        return `discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${formattedGenreIds}`;
+      },
+    }),
+    getMovieById: builder.query({
+      query: (id) => `movie/${id}?language=en-US`,
+    }),
   }),
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieByNameQuery } =
-  tmdbApi;
+export const {
+  useGetMoviesQuery,
+  useGetGenresQuery,
+  useGetMovieByNameQuery,
+  useGetMoviesWithGenresQuery,
+  useGetMovieByIdQuery,
+} = tmdbApi;

@@ -40,10 +40,6 @@ const SettingsSidebar = () => {
       </CreateListWrapper>
       <Header>Genres</Header>
       <UserTags>
-        {/* {movies.genre_ids.map((genreId: number) => {
-          const genre = genres.find((genre: Genre) => genre.id === genreId);
-          return genre ? <Tag key={genre.id} text={genre.name} /> : null;
-        })} */}
         {genresData.genres.map((data: Genre) => (
           <Tag text={data.name} id={data.id} />
         ))}

@@ -15,6 +15,7 @@ const TagText = styled.span`
   color: white;
   margin-right: 10px;
   font-size: 10px;
+  text-align: center;
 `;
 
 const CloseIcon = styled.span`
@@ -42,7 +43,7 @@ const Tag = (props: TagsProps) => {
   return (
     <TagItem onClick={() => chooseGenre()}>
       <TagText>{text}</TagText>
-      <CloseIcon onClick={handleClose}>×</CloseIcon>
+      {/* <CloseIcon onClick={handleClose}>×</CloseIcon> */}
     </TagItem>
   );
 };

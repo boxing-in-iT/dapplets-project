@@ -18,7 +18,15 @@ const moviesSlice = createSlice({
       state.sortBy = action.payload;
     },
     addUserGenre(state, action) {
-      state.userGenres.push(action.payload);
+      const genreId = action.payload;
+      const index = state.userGenres.indexOf(genreId);
+      if (index === -1) {
+        // Если жанр не найден, добавляем его
+        state.userGenres.push(genreId);
+      } else {
+        // Если жанр уже существует, удаляем его
+        state.userGenres.splice(index, 1);
+      }
     },
     removeUserGenre(state, action) {
       state.userGenres = state.userGenres.filter(

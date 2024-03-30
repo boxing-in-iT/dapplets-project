@@ -6,6 +6,7 @@ import {
   useGetGenresQuery,
   useGetMovieByNameQuery,
   useGetMoviesQuery,
+  useGetMoviesWithGenresQuery,
 } from "../../store/services/tmdbApi";
 import { useSelector } from "react-redux";
 import { Movie } from "../../shared/Types";
@@ -32,7 +33,9 @@ const TableContent = styled.div`
 `;
 
 const MainTable = () => {
-  const { searchTerm, sortBy } = useSelector((state: any) => state.movie);
+  const { searchTerm, sortBy, userGenres } = useSelector(
+    (state: any) => state.movie
+  );
 
   const { data: movies, isFetching, isError } = useGetMoviesQuery(sortBy);
   const { data: genresData } = useGetGenresQuery({});
@@ -42,6 +45,12 @@ const MainTable = () => {
     isError: error,
   } = useGetMovieByNameQuery(searchTerm);
 
+  const {
+    data: moviesByGenre,
+    isFetching: loadingMovies,
+    isError: errorGenres,
+  } = useGetMoviesWithGenresQuery(userGenres);
+
   // Проверяем, что movies не равно undefined и movies.results не равно undefined
   if (!movies || !movies.results) {
     return null;
@@ -50,6 +59,8 @@ const MainTable = () => {
   if (!genresData || !genresData.genres) {
     return null;
   }
+
+  console.log("User genres: ", userGenres);
 
   return (
     <MainTableWrapper>
@@ -64,7 +75,7 @@ const MainTable = () => {
       />
 
       <TableContent>
-        {searchTerm === ""
+        {/* {searchTerm === ""
           ? movies.results.map((data: Movie) => (
               <TableItem
                 key={data.id}
@@ -73,6 +84,21 @@ const MainTable = () => {
               />
             ))
           : moviesByName.results.map((data: Movie) => (
+              <TableItem
+                key={data.id}
+                movies={data}
+                genres={genresData.genres}
+              />
+            ))} */}
+        {userGenres.length > 0
+          ? moviesByGenre.results.map((data: Movie) => (
+              <TableItem
+                key={data.id}
+                movies={data}
+                genres={genresData.genres}
+              />
+            ))
+          : movies.results.map((data: Movie) => (
               <TableItem
                 key={data.id}
                 movies={data}

@@ -8,6 +8,7 @@ import SettingsSidebar from "./components/SettingsSidebar/SettingsSidebar";
 import Header from "./components/Header/Header";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./pages/Main";
+import FavoritePage from "./pages/FavoritePage/FavoritePage";
 
 const Page = styled.div`
   position: relative;
@@ -29,20 +30,15 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    children: [{ index: true, element: <MainTable /> }],
+    children: [
+      { index: true, element: <MainTable /> },
+      { path: "/favorite", element: <FavoritePage /> },
+    ],
   },
 ]);
 
 function App() {
   return (
-    // <Page>
-    //   <Sidebar />
-    //   <Content>
-    //     <Header />
-    //     <MainTable />
-    //   </Content>
-    //   <SettingsSidebar />
-    // </Page>
     <>
       <RouterProvider router={router} />
     </>

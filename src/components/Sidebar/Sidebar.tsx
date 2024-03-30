@@ -12,6 +12,7 @@ import Tag from "../Tags/Tag";
 import { useSelector } from "react-redux";
 import { Genre } from "../../shared/Types";
 import { useGetGenresQuery } from "../../store/services/tmdbApi";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   // Добавьте здесь необходимые пропсы, если они есть
@@ -23,6 +24,8 @@ const Sidebar = (props: SidebarProps) => {
 
   const { userGenres } = useSelector((state: any) => state.movie);
   const { data: genresData } = useGetGenresQuery({});
+
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -60,14 +63,20 @@ const Sidebar = (props: SidebarProps) => {
           <SideBarMenu>
             <SideBarMenuItem
               active={activeMenuItem === "All Dapplets"}
-              onClick={() => handleMenuItemClick("All Dapplets")}
+              onClick={() => {
+                handleMenuItemClick("All Dapplets");
+                navigate("/");
+              }}
             >
               <Icon src={codeSandbox} alt="CodeSandbox" />
               All Movies
             </SideBarMenuItem>
             <SideBarMenuItem
               active={activeMenuItem === "Editor's Choice"}
-              onClick={() => handleMenuItemClick("Editor's Choice")}
+              onClick={() => {
+                handleMenuItemClick("Editor's Choice");
+                navigate("/favorite");
+              }}
             >
               <Icon src={heart} alt="Heart" />
               Favorite
